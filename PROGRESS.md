@@ -1,33 +1,34 @@
 # PROGRESS.md
 
 ## Current Project Status
-- **Estimated Completion**: 45%
-- **Status**: Backend Implementation Complete, Ready for Frontend
-- **Blockers**: Need a valid Ticketmaster API key for real frontend testing (currently using dummy key).
+- **Estimated Completion**: 60%
+- **Status**: Frontend scaffolding and Auth connection complete. Proceeding to Calendar UI.
+- **Blockers**: Valid Ticketmaster API key for real data.
 
 ## Environment Status
 - **Node.js**: v22.19.0
 - **npm**: 11.9.0
 - **Git**: 2.45.1.windows.1
-- **Repository State**: `main` branch, initialized with Express backend.
+- **Repository State**: `main` branch, Backend completed, Frontend scaffolded.
 
 ## Proposed Implementation Order
 1. **Initialize Project & Git Setup** (chore: initialize project) - ✅ Completed
 2. **Setup Express Backend** (feat: build backend api and authentication) - ✅ Completed
 3. **MongoDB Persistence Setup** (feat: build backend api and authentication) - ✅ Completed
 4. **Ticketmaster API Integration** (feat: build backend api and authentication) - ✅ Completed
-5. **Calendar Frontend Interface** (Next Milestone)
-6. **Event Details & RSVP**
-7. **Friend Invite & Tracking**
-8. **My Events Dashboard**
-9. **Final Testing & Submission**
+5. **Frontend Setup & Auth** (feat: connect frontend authentication) - ✅ Completed
+6. **Calendar Frontend Interface** (Next Milestone)
+7. **Event Details & RSVP**
+8. **Friend Invite & Tracking**
+9. **My Events Dashboard**
+10. **Final Testing & Submission**
 
 ---
 
 ## Features to Implement
 
-### P0 — MUST HAVE (8/13 Completed)
-- [x] 1. Project setup (Frontend and Backend) *(Backend done)*
+### P0 — MUST HAVE (9/13 Completed)
+- [x] 1. Project setup (Frontend and Backend)
 - [x] 2. Backend API foundations
 - [x] 3. MongoDB connection & models
 - [x] 4. Ticketmaster integration (fetch & normalize events)
@@ -59,28 +60,15 @@
 
 ## Implementation Details
 
-### Database Models Created
-- **User**: name, email, passwordHash, reminderSettings, createdAt
-- **RSVP**: userId, eventId, eventName, eventDate, eventTime, venue, createdAt (Unique constraint on userId + eventId)
-- **Invite**: token, eventId, userId, clicks, friendsAttending, createdAt (Unique constraint on token)
-
-### API Endpoints Implemented
-- `GET /api/health` - Server health check
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/auth/me` - Get authenticated user profile
-- `GET /api/events` - Fetch events from Ticketmaster
-- `GET /api/events/:id` - Fetch single event from Ticketmaster
-- `POST /api/rsvps` - Create RSVP
-- `GET /api/rsvps` - List user's RSVPs
-- `DELETE /api/rsvps/:eventId` - Remove RSVP
-- `POST /api/invites` - Generate shareable invite
-- `GET /api/invites/:token` - Retrieve invite info
-- `POST /api/invites/:token/click` - Increment invite clicks
-- `PATCH /api/users/me/reminders` - Update reminder settings
+### API Endpoints Implemented (Backend)
+- All endpoints completed successfully.
 
 ### Frontend Screens/Components Implemented
-- *None yet*
+- **Scaffolding**: Vite + React + Tailwind + React Router + Lucide-React
+- **API Layer**: Centralized Axios instance (`client/src/api/*`)
+- **Auth Flow**: `AuthContext`, `ProtectedRoute`, `LoginPage`, `RegisterPage`
+- **Layout**: `Sidebar`, `AppLayout`
+- **Pages**: `CalendarPage` (WIP), `MyEventsPage` (WIP), `RemindersPage` (WIP)
 
 ### Integrations Completed
 - **MongoDB Atlas**: Connected and verified.
@@ -89,24 +77,18 @@
 ---
 
 ## Testing & Verification
-- ✅ Server starts up successfully.
-- ✅ `/api/health` returns `ok`.
-- ✅ User Registration creates a user and returns JWT.
-- ✅ User Login authenticates and returns JWT.
-- ✅ Profile (`/api/auth/me`) correctly requires and decodes JWT.
-- ✅ Duplicate RSVP creation is properly blocked by MongoDB index and error handler.
-- ✅ Invite generation correctly ensures user has RSVP'd.
-- ✅ Invite click tracking correctly increments counts.
-- ✅ Reminder settings can be successfully updated via PATCH.
+- ✅ Backend API tests passed 100%.
+- ✅ Frontend auth state correctly handles login/register/logout flow via Context.
+- ✅ Routing successfully redirects unauthenticated users to `/login`.
 
 ## Known Issues
-- Ticketmaster API returns 401 with dummy key (expected behavior, needs valid key).
+- Ticketmaster API returns 401 with dummy key.
 
 ## Important Architectural Decisions
 - **Monorepo Structure**: Separate `client` (React/Vite) and `server` (Express) directories.
 - **Backend-Owned Business Logic**: Ticketmaster API calls, token generation, and RSVP validation are handled purely server-side.
-- **Database**: MongoDB Atlas with collections for Users, RSVPs, and Invites.
-- **Auth**: Minimal JWT-based authentication to attribute RSVPs and Invites to specific users without over-engineering OAuth/Sessions.
+- **Frontend API Layer**: All Axios calls centralized in `src/api/` rather than component bodies.
 
 ## Git Commits (Milestones)
-- *Pending `feat: build backend api and authentication` commit*
+- `feat: build backend api and authentication`
+- *Pending `feat: connect frontend authentication` commit*
